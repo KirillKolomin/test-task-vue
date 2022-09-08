@@ -25,6 +25,8 @@
 
 .catalog {
   &__card {
+    margin: 0 auto;
+
     & + & {
       margin-top: 16px;
     }
