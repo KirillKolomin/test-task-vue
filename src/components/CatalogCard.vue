@@ -11,6 +11,17 @@
       </div>
     </q-card-section>
 
+    <q-card-section class="card__middle-column middle-column">
+      <q-img
+        class="middle-column__image card__image"
+        :src="props.images[0].path"
+      ></q-img>
+      <q-img
+        class="middle-column__image card__image"
+        :src="props.images[0].path"
+      ></q-img>
+    </q-card-section>
+
     <q-card-section class="card__right-column right-column">
       <q-card-section class="card__header header">
         <div class="header__title">
@@ -100,6 +111,24 @@ const props = defineProps<CatalogCardProps>();
     @media (min-width: $breakpoint-sm-min) {
       display: flex;
     }
+
+    @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
+      flex-basis: 345px;
+    }
+
+    @media (min-width: $breakpoint-lg-min) {
+      flex-basis: 413px;
+    }
+  }
+
+  &__middle-column {
+    display: none;
+    margin-left: 16px;
+
+    @media (min-width: $breakpoint-lg-min) {
+      display: flex;
+      flex-basis: 162px;
+    }
   }
 
   .card__image {
@@ -123,6 +152,7 @@ const props = defineProps<CatalogCardProps>();
 
   &__location-btn {
     display: none;
+    margin-left: 16px;
 
     @media (min-width: $breakpoint-sm-min) {
       display: flex;
@@ -157,14 +187,6 @@ const props = defineProps<CatalogCardProps>();
   padding: 0;
   position: relative;
 
-  @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
-    flex-basis: 345px;
-  }
-
-  @media (min-width: $breakpoint-lg-min) {
-    flex-basis: 413px;
-  }
-
   &__gallery-icon {
     position: absolute;
     bottom: 16px;
@@ -180,10 +202,26 @@ const props = defineProps<CatalogCardProps>();
 
   &__image {
     display: none;
-    width: 345px;
+    width: 100%;
     height: 100%;
     @media (min-width: $breakpoint-sm-min) {
       display: initial;
+    }
+  }
+}
+
+.middle-column {
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  width: 162px;
+
+  &__image {
+    flex-grow: 1;
+    height: 112px;
+
+    & + & {
+      margin-top: 16px;
     }
   }
 }
@@ -232,9 +270,11 @@ const props = defineProps<CatalogCardProps>();
 
     @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
       flex-basis: 166px;
+      margin-left: 16px;
     }
     @media (min-width: $breakpoint-lg-min) {
       flex-basis: 204px;
+      margin-left: 16px;
     }
   }
 }
