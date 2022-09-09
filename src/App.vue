@@ -3,12 +3,28 @@
     <TopHeader class="layout__header" />
     <q-page-container class="layout__page-container">
       <q-page class="layout__page catalog">
-        <CatalogCard
-          v-for="apartment in state.apartments"
-          :key="apartment.id"
-          v-bind="apartment"
-          class="catalog__card"
+        <q-spinner
+          class="catalog__loader"
+          v-if="state.isLoading"
+          color="primary"
+          size="3em"
         />
+
+        <div
+          v-if="!state.isLoading && state.errorMessage"
+          class="catalog__error-message"
+        >
+          {{ state.errorMessage }}
+        </div>
+
+        <template v-if="!state.isLoading && state.apartments.length">
+          <CatalogCard
+            v-for="apartment in state.apartments"
+            :key="apartment.id"
+            v-bind="apartment"
+            class="catalog__card"
+          />
+        </template>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -24,6 +40,15 @@
 }
 
 .catalog {
+  position: relative;
+  &__loader,
+  &__error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   &__card {
     margin: 0 auto;
 
@@ -53,10 +78,15 @@ interface AppState {
     sum: number;
   }[];
   isLoading: boolean;
+  errorMessage: string;
 }
 
 const axios: Axios = inject("axios");
-const state = reactive<AppState>({ apartments: [], isLoading: true });
+const state = reactive<AppState>({
+  apartments: [],
+  isLoading: true,
+  errorMessage: "",
+});
 
 onMounted(requestApartments);
 
@@ -67,9 +97,10 @@ function requestApartments() {
       state.apartments = apartments.data;
       state.isLoading = false;
     })
-    .catch(() => {
+    .catch((error) => {
       state.apartments = [];
       state.isLoading = false;
+      state.errorMessage = error.response.data.errorMessage;
     });
 }
 </script>
