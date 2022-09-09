@@ -70,6 +70,8 @@
 </template>
 
 <script lang="ts" setup>
+import { defineProps } from "vue";
+
 interface CatalogCardProps {
   address: string;
   allRooms: number;
@@ -81,8 +83,6 @@ interface CatalogCardProps {
   roomClass: string;
   sum: number;
 }
-
-import { defineProps } from "vue";
 
 const DEFAULT_DAYS_COEFFICIENT = 41;
 const props = defineProps<CatalogCardProps>();

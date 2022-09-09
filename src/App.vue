@@ -4,9 +4,9 @@
     <q-page-container class="layout__page-container">
       <q-page class="layout__page catalog">
         <CatalogCard
-          v-for="appartment in appartments"
-          :key="appartment.id"
-          v-bind="appartment"
+          v-for="apartment in state.apartments"
+          :key="apartment.id"
+          v-bind="apartment"
           class="catalog__card"
         />
       </q-page>
@@ -34,8 +34,42 @@
 }
 </style>
 
-<script setup>
+<script lang="ts" setup>
 import TopHeader from "./components/TopHeader";
 import CatalogCard from "./components/CatalogCard";
-import appartments from "./models/apartments.json";
+import { inject, onMounted, reactive } from "vue";
+import { Axios, AxiosResponse } from "axios";
+
+interface AppState {
+  apartments: {
+    address: string;
+    allRooms: number;
+    apartmentLocation: string;
+    coords: string;
+    freeRooms: number;
+    images: { path: string }[];
+    name: string;
+    roomClass: string;
+    sum: number;
+  }[];
+  isLoading: boolean;
+}
+
+const axios: Axios = inject("axios");
+const state = reactive<AppState>({ apartments: [], isLoading: true });
+
+onMounted(requestApartments);
+
+function requestApartments() {
+  axios
+    .get("apartments")
+    .then((apartments: AxiosResponse) => {
+      state.apartments = apartments.data;
+      state.isLoading = false;
+    })
+    .catch(() => {
+      state.apartments = [];
+      state.isLoading = false;
+    });
+}
 </script>
