@@ -11,14 +11,19 @@
       </div>
     </q-card-section>
 
-    <q-card-section class="card__middle-column middle-column">
+    <q-card-section
+      v-if="props.images[1]"
+      class="card__middle-column middle-column"
+    >
       <q-img
         class="middle-column__image card__image"
-        :src="props.images[0].path"
+        v-if="props.images[1]"
+        :src="props.images[1].path"
       ></q-img>
       <q-img
         class="middle-column__image card__image"
-        :src="props.images[0].path"
+        v-if="props.images[2]"
+        :src="props.images[2].path"
       ></q-img>
     </q-card-section>
 
