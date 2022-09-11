@@ -6,7 +6,7 @@
         :src="props.images[0].path"
       ></q-img>
 
-      <div class="left-column__gallery-icon">
+      <div class="left-column__gallery-icon" @click="showGallery">
         <q-icon class="text-white" size="21px" name="photo_camera"></q-icon>
       </div>
     </q-card-section>
@@ -90,6 +90,8 @@
 <script lang="ts" setup>
 import { defineProps, onBeforeMount, reactive } from "vue";
 import AppMap from "./AppMap";
+import AppCarousel from "./AppCarousel";
+import { useQuasar } from "quasar";
 
 interface CatalogCardProps {
   address: string;
@@ -105,6 +107,8 @@ interface CatalogCardProps {
   l2: number;
 }
 
+const $q = useQuasar();
+
 const MAP_HEIGHT = 450;
 const MAP_WIDTH = 450;
 const DEFAULT_DAYS_COEFFICIENT = 41;
@@ -119,6 +123,13 @@ onBeforeMount(() => {
   data.mapOptions.l1 = props.l1;
   data.mapOptions.l2 = props.l2;
 });
+
+function showGallery() {
+  $q.dialog({
+    component: AppCarousel,
+    componentProps: { images: props.images.map(({ path }) => path) },
+  });
+}
 
 function toggleMap(): void {
   data.isMapOpen = !data.isMapOpen;
