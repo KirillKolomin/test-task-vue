@@ -76,6 +76,8 @@ interface AppState {
     name: string;
     roomClass: string;
     sum: number;
+    l1: number;
+    l2: number;
   }[];
   isLoading: boolean;
   errorMessage: string;

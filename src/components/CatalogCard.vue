@@ -28,54 +28,68 @@
     </q-card-section>
 
     <q-card-section class="card__right-column right-column">
-      <q-card-section class="card__header header">
-        <div class="header__title">
-          <div class="text-h6 text-primary">{{ props.name }}</div>
-          <div class="text-subtitle1">{{ props.address }}</div>
-        </div>
-        <q-btn
-          class="bg-primary text-white button header__location-btn"
-          icon="location_pin"
-        />
-      </q-card-section>
-
-      <q-img
-        class="right-column__image card__image"
-        :src="props.images[0].path"
-      />
-
-      <q-card-section class="card__info info">
-        <div class="info__item">
-          <span>Занято номеров:</span
-          ><span
-            >{{ props.allRooms - props.freeRooms }}/{{ props.allRooms }}</span
-          >
-        </div>
-        <div class="info__item">
-          <span>Класс:</span><span>{{ props.roomClass }}</span>
-        </div>
-        <div class="info__item">
-          <span>Расположение:</span><span>{{ props.apartmentLocation }}</span>
-        </div>
-      </q-card-section>
-
-      <div class="footer">
-        <q-card-section class="footer__sum">
-          {{ props.sum * DEFAULT_DAYS_COEFFICIENT }}р. за 41 день
+      <div v-if="!data.isMapOpen">
+        <q-card-section class="card__header header">
+          <div class="header__title">
+            <div class="text-h6 text-primary">{{ props.name }}</div>
+            <div class="text-subtitle1">{{ props.address }}</div>
+          </div>
+          <q-btn
+            v-if="!data.isMapOpen"
+            class="bg-primary text-white button right-column__open-map"
+            icon="location_pin"
+            @click="toggleMap"
+          />
         </q-card-section>
 
-        <q-card-actions class="footer__actions">
-          <q-btn class="bg-primary text-white button card__details" flat
-            >Подробнее</q-btn
-          >
-        </q-card-actions>
+        <q-img
+          class="right-column__image card__image"
+          :src="props.images[0].path"
+        />
+
+        <q-card-section class="card__info info">
+          <div class="info__item">
+            <span>Занято номеров:</span
+            ><span
+              >{{ props.allRooms - props.freeRooms }}/{{ props.allRooms }}</span
+            >
+          </div>
+          <div class="info__item">
+            <span>Класс:</span><span>{{ props.roomClass }}</span>
+          </div>
+          <div class="info__item">
+            <span>Расположение:</span><span>{{ props.apartmentLocation }}</span>
+          </div>
+        </q-card-section>
+
+        <div class="footer">
+          <q-card-section class="footer__sum">
+            {{ props.sum * DEFAULT_DAYS_COEFFICIENT }}р. за 41 день
+          </q-card-section>
+
+          <q-card-actions class="footer__actions">
+            <q-btn class="bg-primary text-white button card__details" flat
+              >Подробнее</q-btn
+            >
+          </q-card-actions>
+        </div>
       </div>
+
+      <template v-if="data.isMapOpen">
+        <q-btn
+          class="bg-white text-primary button right-column__close-map"
+          icon="cancel"
+          @click="toggleMap"
+        />
+        <AppMap class="right-column__map" v-bind="data.mapOptions" />
+      </template>
     </q-card-section>
   </q-card>
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue";
+import { defineProps, onBeforeMount, reactive } from "vue";
+import AppMap from "./AppMap";
 
 interface CatalogCardProps {
   address: string;
@@ -87,14 +101,33 @@ interface CatalogCardProps {
   name: string;
   roomClass: string;
   sum: number;
+  l1: number;
+  l2: number;
 }
 
+const MAP_HEIGHT = 450;
+const MAP_WIDTH = 450;
 const DEFAULT_DAYS_COEFFICIENT = 41;
+
 const props = defineProps<CatalogCardProps>();
+const data = reactive({
+  isMapOpen: false,
+  mapOptions: { l1: 0, l2: 0, width: MAP_WIDTH, height: MAP_HEIGHT },
+});
+
+onBeforeMount(() => {
+  data.mapOptions.l1 = props.l1;
+  data.mapOptions.l2 = props.l2;
+});
+
+function toggleMap(): void {
+  data.isMapOpen = !data.isMapOpen;
+}
 </script>
 
 <style scoped lang="scss">
 @import "src/styles/colors";
+@import "src/styles/quasar.variables";
 
 .card {
   display: flex;
@@ -153,15 +186,6 @@ const props = defineProps<CatalogCardProps>();
 
   @media (min-width: $breakpoint-sm-min) {
     justify-content: space-between;
-  }
-
-  &__location-btn {
-    display: none;
-    margin-left: 16px;
-
-    @media (min-width: $breakpoint-sm-min) {
-      display: flex;
-    }
   }
 }
 
@@ -232,14 +256,17 @@ const props = defineProps<CatalogCardProps>();
 }
 
 .right-column {
+  position: relative;
   padding: 0;
+
+  @media (max-width: $breakpoint-xs-max) {
+    & > * + * {
+      margin-top: 16px;
+    }
+  }
 
   @media (min-width: $breakpoint-sm-min) {
     margin-left: 16px;
-  }
-
-  & > * + * {
-    margin-top: 16px;
   }
 
   &__image {
@@ -249,6 +276,35 @@ const props = defineProps<CatalogCardProps>();
     @media (min-width: $breakpoint-sm-min) {
       display: none;
     }
+  }
+
+  &__map {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 345px;
+    height: 240px;
+    overflow: hidden;
+
+    @media (min-width: $breakpoint-lg-min) {
+      width: 407px;
+    }
+  }
+
+  &__open-map {
+    display: none;
+    margin-left: 16px;
+
+    @media (min-width: $breakpoint-sm-min) {
+      display: flex;
+    }
+  }
+
+  &__close-map {
+    position: absolute;
+    right: 0;
+    border: 2px $primary solid;
+    z-index: 1;
   }
 }
 
