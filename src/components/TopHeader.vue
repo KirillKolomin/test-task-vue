@@ -12,7 +12,7 @@
       <q-btn-group flat class="header__navigation text-body2">
         <q-btn class="header__navigation-item" stretch>
           <div class="text-dark navigation-item">
-            <q-icon class="navigation-item__icon" size="16px" name="language" />
+            <q-icon class="navigation-item__icon" size="18px" name="language" />
             <span class="navigation-item__label">Язык (RU)</span>
           </div>
         </q-btn>
@@ -31,7 +31,7 @@
 
         <q-btn class="text-dark header__navigation-item" stretch>
           <div class="text-dark navigation-item">
-            <q-icon class="navigation-item__icon" size="16px" name="login" />
+            <q-icon class="navigation-item__icon" size="20px" name="login" />
             <span class="navigation-item__label">Войти</span>
           </div>
         </q-btn>
@@ -58,11 +58,12 @@
 
   &__navigation {
     margin-left: auto;
+    margin-right: 15px;
   }
 
   &__navigation-item {
     & + & {
-      margin-left: 18px;
+      margin-left: 1px;
     }
   }
 }

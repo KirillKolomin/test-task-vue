@@ -33,41 +33,38 @@
     <q-card-section class="card__right-column right-column">
       <div v-if="!data.isMapOpen">
         <q-card-section class="card__header header">
-          <div class="header__title">
-            <div class="text-h6 text-primary">{{ props.name }}</div>
-            <div class="text-subtitle1">{{ props.address }}</div>
+          <div class="">
+            <h6 class="text-h6 text-primary header__title">{{ props.name }}</h6>
+            <span class="text-subtitle1">{{ props.address }}</span>
           </div>
-          <q-btn
+          <AppButton
             v-if="!data.isMapOpen"
-            class="bg-primary text-white button right-column__open-map"
+            class="bg-primary text-white right-column__open-map"
             icon="location_pin"
             @click="toggleMap"
           />
         </q-card-section>
 
-        <q-img
-          class="right-column__image card__image"
-          :src="props.images[0].path"
-        />
+        <q-img class="br-8 right-column__image" :src="props.images[0].path" />
 
-        <q-card-section class="card__info info">
-          <div class="info__item">
-            <span>Занято номеров:</span
-            ><span
-              >{{ props.allRooms - props.freeRooms }}/{{ props.allRooms }}</span
-            >
-          </div>
-          <div class="info__item">
-            <span>Класс:</span><span>{{ props.roomClass }}</span>
-          </div>
-          <div class="info__item">
-            <span>Расположение:</span><span>{{ props.apartmentLocation }}</span>
-          </div>
+        <q-card-section class="br-8 card__info info">
+          <dl class="info__item">
+            <dt>Занято номеров:</dt>
+            <dd>{{ props.allRooms - props.freeRooms }}/{{ props.allRooms }}</dd>
+          </dl>
+          <dl class="info__item">
+            <dt>Класс:</dt>
+            <dd>{{ props.roomClass }}</dd>
+          </dl>
+          <dl class="info__item">
+            <dt>Расположение:</dt>
+            <dd>{{ props.apartmentLocation }}</dd>
+          </dl>
         </q-card-section>
 
-        <div class="footer">
+        <div class="card__footer footer">
           <q-card-section class="footer__sum">
-            {{ props.sum * DEFAULT_DAYS_COEFFICIENT }}р. за 41 день
+            от {{ props.sum * DEFAULT_DAYS_COEFFICIENT }}р. за 41 день
           </q-card-section>
 
           <q-card-actions class="footer__actions">
@@ -184,13 +181,13 @@ function toggleMap(): void {
     }
   }
 
-  .card__image {
-    border-radius: 8px;
-  }
-
   &__details {
     padding: 16px 32px;
     width: 100%;
+  }
+
+  &__footer {
+    margin-top: -4px;
   }
 }
 
@@ -202,22 +199,28 @@ function toggleMap(): void {
   @media (min-width: $breakpoint-sm-min) {
     justify-content: space-between;
   }
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .info {
-  padding: 0;
+  padding: 16px 0;
   border-radius: 8px;
+  font-size: 12px;
+  line-height: 16px;
 
   @media (min-width: $breakpoint-sm-min) {
     background-color: $card-info-bg;
-    padding: 16px;
   }
 
   &__item {
     display: flex;
 
     & + & {
-      margin-top: 16px;
+      margin-top: 11px;
     }
 
     & > * {
@@ -285,6 +288,7 @@ function toggleMap(): void {
   }
 
   &__image {
+    margin-top: 14px;
     width: 350px;
     height: 128px;
 
@@ -336,7 +340,9 @@ function toggleMap(): void {
   &__sum {
     padding: 0;
     font-size: 14px;
+    line-height: 19px;
     font-weight: bold;
+    letter-spacing: -0.1px;
   }
 
   &__actions {
