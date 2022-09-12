@@ -6,9 +6,12 @@
         :src="props.images[0].path"
       ></q-img>
 
-      <div class="left-column__gallery-icon" @click="showGallery">
-        <q-icon class="text-white" size="21px" name="photo_camera"></q-icon>
-      </div>
+      <AppButton
+        class="text-white bg-transparent left-column__gallery-icon"
+        size="21px"
+        icon="photo_camera"
+        @click="showGallery"
+      />
     </q-card-section>
 
     <q-card-section
@@ -68,16 +71,16 @@
           </q-card-section>
 
           <q-card-actions class="footer__actions">
-            <q-btn class="bg-primary text-white button card__details" flat
-              >Подробнее</q-btn
-            >
+            <AppButton class="bg-primary text-white card__details">
+              <span>Подробнее</span>
+            </AppButton>
           </q-card-actions>
         </div>
       </div>
 
       <template v-if="data.isMapOpen">
-        <q-btn
-          class="bg-white text-primary button right-column__close-map"
+        <AppButton
+          class="bg-white text-primary right-column__close-map"
           icon="cancel"
           @click="toggleMap"
         />
@@ -91,6 +94,7 @@
 import { defineProps, onBeforeMount, reactive } from "vue";
 import AppMap from "./AppMap";
 import AppCarousel from "./AppCarousel";
+import AppButton from "./AppButton";
 import { useQuasar } from "quasar";
 
 interface CatalogCardProps {
