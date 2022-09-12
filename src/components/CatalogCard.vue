@@ -2,7 +2,7 @@
   <q-card class="card">
     <q-card-section class="card__left-column left-column">
       <q-img
-        class="br-8 left-column__image"
+        class="br-8 image left-column__image"
         :src="props.images[0].path"
       ></q-img>
 
@@ -19,12 +19,12 @@
       class="card__middle-column middle-column"
     >
       <q-img
-        class="middle-column__image card__image"
+        class="middle-column__image br-8 image image--small"
         v-if="props.images[1]"
         :src="props.images[1].path"
       ></q-img>
       <q-img
-        class="middle-column__image card__image"
+        class="middle-column__image br-8 image image--small"
         v-if="props.images[2]"
         :src="props.images[2].path"
       ></q-img>
@@ -68,7 +68,7 @@
           </q-card-section>
 
           <q-card-actions class="footer__actions">
-            <AppButton class="bg-primary text-white card__details">
+            <AppButton class="bg-primary text-white footer__details">
               <span>Подробнее</span>
             </AppButton>
           </q-card-actions>
@@ -140,9 +140,24 @@ function toggleMap(): void {
 <style scoped lang="scss">
 @import "src/styles/colors";
 @import "src/styles/quasar.variables";
+@import "src/styles/variables";
 
-$gap: 16px;
 $tablet-left-column-width: 345px;
+$desktop-left-column-width: 410px;
+$desktop-middle-column-width: 162px;
+$image-max-height: 240px;
+$image-max-height: 240px;
+$image-max-height-small: 112px;
+
+.image {
+  width: 100%;
+  height: 100%;
+  max-height: $image-max-height;
+
+  &--small {
+    max-height: $image-max-height-small;
+  }
+}
 
 .card {
   display: flex;
@@ -157,6 +172,7 @@ $tablet-left-column-width: 345px;
 
   @media (min-width: $breakpoint-lg-min) {
     width: 1052px;
+    min-height: 272px;
   }
 
   &__left-column {
@@ -171,7 +187,7 @@ $tablet-left-column-width: 345px;
     }
 
     @media (min-width: $breakpoint-lg-min) {
-      flex-basis: 413px;
+      flex-basis: $desktop-left-column-width;
     }
   }
 
@@ -181,24 +197,33 @@ $tablet-left-column-width: 345px;
 
     @media (min-width: $breakpoint-lg-min) {
       display: flex;
-      flex-basis: 162px;
+      flex-basis: $desktop-middle-column-width;
     }
   }
 
   &__right-column {
-    flex-basis: calc(100% - #{$tablet-left-column-width} - #{$gap});
-  }
+    flex-basis: 100%;
 
-  &__details {
-    padding: $gap 32px;
-    width: 100%;
+    @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
+      flex-basis: calc(100% - #{$tablet-left-column-width} - #{$gap});
+    }
+
+    @media (min-width: $breakpoint-lg-min) {
+      flex-basis: calc(
+        100% - #{$desktop-left-column-width} - #{$desktop-middle-column-width} -
+          2 * #{$gap}
+      );
+    }
   }
 
   &__footer {
     margin-top: -4px;
 
-    @media (min-width: $breakpoint-sm-min) {
+    @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
       margin-top: 21px;
+    }
+    @media (min-width: $breakpoint-lg-min) {
+      margin-top: 8px;
     }
   }
 }
@@ -225,7 +250,7 @@ $tablet-left-column-width: 345px;
 
   @media (min-width: $breakpoint-sm-min) {
     margin-top: 20px;
-    background-color: $card-info-bg;
+    background-color: $card-info-bg-color;
   }
 
   &__item {
@@ -259,8 +284,6 @@ $tablet-left-column-width: 345px;
 
   &__image {
     display: none;
-    width: 100%;
-    height: 100%;
 
     @media (min-width: $breakpoint-sm-min) {
       display: block;
@@ -270,13 +293,11 @@ $tablet-left-column-width: 345px;
 
 .middle-column {
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: start;
   padding: 0;
-  width: 162px;
 
   &__image {
     flex-grow: 1;
-    height: 112px;
 
     & + & {
       margin-top: $gap;
@@ -313,7 +334,7 @@ $tablet-left-column-width: 345px;
     justify-content: center;
     align-items: center;
     width: 345px;
-    height: 240px;
+    height: $image-max-height;
     overflow: hidden;
 
     @media (min-width: $breakpoint-lg-min) {
@@ -324,7 +345,7 @@ $tablet-left-column-width: 345px;
   &__open-map {
     display: none;
     margin-left: $gap;
-    width: 45px;
+    width: 46px;
 
     @media (min-width: $breakpoint-sm-min) {
       display: flex;
@@ -334,6 +355,7 @@ $tablet-left-column-width: 345px;
   &__close-map {
     position: absolute;
     right: 0;
+    width: 46px;
     border: 2px $primary solid;
     z-index: 1;
   }
@@ -371,6 +393,11 @@ $tablet-left-column-width: 345px;
       flex-basis: 204px;
       margin-left: $gap;
     }
+  }
+
+  &__details {
+    padding: $gap 32px;
+    width: 100%;
   }
 }
 </style>

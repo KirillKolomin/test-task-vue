@@ -1,8 +1,10 @@
 @import "fonts";
 @import "colors";
+@import "variables";
 
 body {
   font-family: Noto Sans, sans-serif;
+  background-color: $body-bg-color;
 }
 
 h6, dl, dt, dd {

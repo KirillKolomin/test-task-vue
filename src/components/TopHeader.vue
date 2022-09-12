@@ -60,8 +60,13 @@
     margin-left: auto;
     margin-right: 15px;
 
-    @media (min-width: $breakpoint-sm-min) {
+    @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
       margin-right: 0;
+      margin-top: 12px;
+    }
+
+    @media (min-width: $breakpoint-lg-min) {
+      margin-right: 45px;
       margin-top: 12px;
     }
   }
@@ -69,6 +74,12 @@
   &__navigation-item {
     font-size: 14px;
     line-height: 19px;
+
+    @media (min-width: $breakpoint-lg-min) {
+      &:not(:last-of-type) {
+        margin-right: 80px;
+      }
+    }
   }
 }
 

@@ -31,6 +31,8 @@
 </template>
 
 <style scoped lang="scss">
+@import "styles/variables";
+
 // Сама БЭМ методология говорит о том, что под каждый блок структура должна содержать свой собственный файл.
 // Но я пожалуй, отступлю от этого правила на время тестового задания.
 .layout {
@@ -41,6 +43,8 @@
 
 .catalog {
   position: relative;
+  padding: $gap;
+
   &__loader,
   &__error-message {
     position: absolute;
@@ -51,6 +55,11 @@
 
   &__card {
     margin: 0 auto;
+
+    @media (min-width: $breakpoint-lg-min) {
+      margin-left: auto;
+      margin-right: 0;
+    }
 
     & + & {
       margin-top: 16px;
