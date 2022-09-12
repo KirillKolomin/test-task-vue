@@ -2,13 +2,13 @@
   <q-card class="card">
     <q-card-section class="card__left-column left-column">
       <q-img
-        class="left-column__image card__image"
+        class="br-8 left-column__image"
         :src="props.images[0].path"
       ></q-img>
 
       <AppButton
-        class="text-white bg-transparent left-column__gallery-icon"
-        size="21px"
+        class="br-8 text-white bg-transparent left-column__gallery-icon"
+        size="14px"
         icon="photo_camera"
         @click="showGallery"
       />
@@ -47,7 +47,7 @@
 
         <q-img class="br-8 right-column__image" :src="props.images[0].path" />
 
-        <q-card-section class="br-8 card__info info">
+        <q-card-section class="br-8 info">
           <dl class="info__item">
             <dt>Занято номеров:</dt>
             <dd>{{ props.allRooms - props.freeRooms }}/{{ props.allRooms }}</dd>
@@ -141,14 +141,18 @@ function toggleMap(): void {
 @import "src/styles/colors";
 @import "src/styles/quasar.variables";
 
+$gap: 16px;
+$tablet-left-column-width: 345px;
+
 .card {
   display: flex;
-  padding: 16px;
+  padding: $gap;
   width: 382px;
   box-shadow: 0 4px 4px $box-shadow-color, 3px 4px 4px $box-shadow-color;
 
   @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
     width: 736px;
+    min-height: 272px;
   }
 
   @media (min-width: $breakpoint-lg-min) {
@@ -159,11 +163,11 @@ function toggleMap(): void {
     display: none;
 
     @media (min-width: $breakpoint-sm-min) {
-      display: flex;
+      display: block;
     }
 
     @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
-      flex-basis: 345px;
+      flex-basis: $tablet-left-column-width;
     }
 
     @media (min-width: $breakpoint-lg-min) {
@@ -173,7 +177,7 @@ function toggleMap(): void {
 
   &__middle-column {
     display: none;
-    margin-left: 16px;
+    margin-left: $gap;
 
     @media (min-width: $breakpoint-lg-min) {
       display: flex;
@@ -181,13 +185,21 @@ function toggleMap(): void {
     }
   }
 
+  &__right-column {
+    flex-basis: calc(100% - #{$tablet-left-column-width} - #{$gap});
+  }
+
   &__details {
-    padding: 16px 32px;
+    padding: $gap 32px;
     width: 100%;
   }
 
   &__footer {
     margin-top: -4px;
+
+    @media (min-width: $breakpoint-sm-min) {
+      margin-top: 21px;
+    }
   }
 }
 
@@ -207,12 +219,12 @@ function toggleMap(): void {
 }
 
 .info {
-  padding: 16px 0;
-  border-radius: 8px;
+  padding: $gap 0;
   font-size: 12px;
-  line-height: 16px;
+  line-height: $gap;
 
   @media (min-width: $breakpoint-sm-min) {
+    margin-top: 20px;
     background-color: $card-info-bg;
   }
 
@@ -236,23 +248,22 @@ function toggleMap(): void {
 
   &__gallery-icon {
     position: absolute;
-    bottom: 16px;
-    left: 16px;
+    bottom: $gap;
+    left: $gap;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 46px;
-    height: 48px;
     border: 2px solid white;
-    border-radius: 8px;
   }
 
   &__image {
     display: none;
     width: 100%;
     height: 100%;
+
     @media (min-width: $breakpoint-sm-min) {
-      display: initial;
+      display: block;
     }
   }
 }
@@ -268,7 +279,7 @@ function toggleMap(): void {
     height: 112px;
 
     & + & {
-      margin-top: 16px;
+      margin-top: $gap;
     }
   }
 }
@@ -279,12 +290,12 @@ function toggleMap(): void {
 
   @media (max-width: $breakpoint-xs-max) {
     & > * + * {
-      margin-top: 16px;
+      margin-top: $gap;
     }
   }
 
   @media (min-width: $breakpoint-sm-min) {
-    margin-left: 16px;
+    margin-left: $gap;
   }
 
   &__image {
@@ -312,7 +323,8 @@ function toggleMap(): void {
 
   &__open-map {
     display: none;
-    margin-left: 16px;
+    margin-left: $gap;
+    width: 45px;
 
     @media (min-width: $breakpoint-sm-min) {
       display: flex;
@@ -348,15 +360,16 @@ function toggleMap(): void {
   &__actions {
     flex-basis: 100%;
     padding: 0;
-    margin-top: 16px;
+    margin-top: $gap;
 
     @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-md-max) {
       flex-basis: 166px;
-      margin-left: 16px;
+      margin-top: 0;
+      margin-left: $gap;
     }
     @media (min-width: $breakpoint-lg-min) {
       flex-basis: 204px;
-      margin-left: 16px;
+      margin-left: $gap;
     }
   }
 }

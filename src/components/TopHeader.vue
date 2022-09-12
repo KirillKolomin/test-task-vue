@@ -59,12 +59,16 @@
   &__navigation {
     margin-left: auto;
     margin-right: 15px;
+
+    @media (min-width: $breakpoint-sm-min) {
+      margin-right: 0;
+      margin-top: 12px;
+    }
   }
 
   &__navigation-item {
-    & + & {
-      margin-left: 1px;
-    }
+    font-size: 14px;
+    line-height: 19px;
   }
 }
 
@@ -75,6 +79,8 @@
 
   &__label {
     display: none;
+    margin-top: 8px;
+    text-transform: none;
 
     @media (min-width: $breakpoint-sm-min) {
       display: initial;
