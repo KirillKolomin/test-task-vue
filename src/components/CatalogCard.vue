@@ -4,9 +4,11 @@
       <q-img
         class="br-8 image left-column__image"
         :src="props.images[0].path"
+        @load="showGalleryButton"
       ></q-img>
 
       <AppButton
+        v-if="data.isImageLoaded"
         class="br-8 text-white bg-transparent left-column__gallery-icon"
         size="14px"
         icon="photo_camera"
@@ -116,6 +118,7 @@ const DEFAULT_DAYS_COEFFICIENT = 41;
 
 const props = defineProps<CatalogCardProps>();
 const data = reactive({
+  isImageLoaded: false,
   isMapOpen: false,
   mapOptions: { l1: 0, l2: 0, width: MAP_WIDTH, height: MAP_HEIGHT },
 });
@@ -124,6 +127,10 @@ onBeforeMount(() => {
   data.mapOptions.l1 = props.l1;
   data.mapOptions.l2 = props.l2;
 });
+
+function showGalleryButton() {
+  data.isImageLoaded = true;
+}
 
 function showGallery() {
   $q.dialog({
@@ -177,6 +184,7 @@ $image-max-height-small: 112px;
 
   &__left-column {
     display: none;
+    height: 100%;
 
     @media (min-width: $breakpoint-sm-min) {
       display: block;
